@@ -8,6 +8,7 @@ import {
 }from "@apollo/client";
 import ContactList from './components/ContactList';
 import Contact from './components/Contact';
+import styled from "styled-components";
 
 function App() {
   const client = new ApolloClient({
@@ -31,10 +32,17 @@ function App() {
 
   return (
     <ApolloProvider client= {client}>
-      <ContactList inputvalue={statepage}></ContactList>
-      <Contact reloadHandler={reloadHandler}></Contact>
+      <LayOut>
+        <Contact reloadHandler={reloadHandler}></Contact>
+        <ContactList inputvalue={statepage}></ContactList>
+      </LayOut>
     </ApolloProvider>
   );
 }
 
+const LayOut = styled.div` 
+  display:flex;
+  flex-direction: column;
+  justify: center;
+`
 export default App;

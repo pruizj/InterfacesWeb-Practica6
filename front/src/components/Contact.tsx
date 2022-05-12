@@ -1,5 +1,6 @@
 import React , {useState, FC} from "react";
 import {gql, useMutation} from "@apollo/client";
+import styled from "styled-components";
 
 const ADD_CONTACT = gql`
     mutation Mutation($name: String!, $surname: String!, $email: String!, $phone: String!) {
@@ -43,76 +44,119 @@ const Contact: FC <{reloadHandler:(value:number) => void }> = ({reloadHandler}) 
     const [editContactMutation] = useMutation(EDIT_CONTACT);
 
     return <div>
-        <input type="text" value = {email_antiguo} onChange= {
-            (e) => setEmail_antiguo(e.target.value)
-        }placeholder="Email-Antiguo"></input>
-        
-        <input type="text" value = {name} onChange= {
-            (e) => setName(e.target.value)
-        }placeholder="Nombre"></input>
-
-        <input type="text" value = {surname} onChange= {
-            (e) => setSurname(e.target.value)
-        } placeholder="Apellido"></input>
-
-        <input type="text" value = {email} onChange= {
-            (e) => setEmail(e.target.value)
-        } placeholder="email"></input>
-
-        <input type="text" value = {phone} onChange= {
-            (e) => setPhone(e.target.value)
-        } placeholder="phone"></input>
-
-        <button onClick = {() => addContactMutation({
-            variables: {
-                name,
-                surname,
-                email,
-                phone
-            },
-        }).then(() => {
-            reloadHandler(1);
-            setName("");
-            setSurname("");
-            setEmail("");
-            setPhone("");
-        })
-        }>Add</button>
-
-        <button onClick = {()=>reloadHandler(2)}>
-            A-Z</button>
-
-        <button onClick = {()=>reloadHandler(3)}>
-            Z-A</button>
+        <Formulario>
+            <Input type="text" value = {email_antiguo} onChange= {
+                (e) => setEmail_antiguo(e.target.value)
+            }placeholder="Email-Antiguo (Solo cuando Editar)"></Input>
             
-        <button onClick = {() => deleteContactMutation({
-            variables: {
-                email
-            },
-        }).then(() => {
-            reloadHandler(1);
-            setEmail("");
-        })
-        }>Delete</button>
+            <Input type="text" value = {name} onChange= {
+                (e) => setName(e.target.value)
+            }placeholder="Nombre"></Input>
 
-        <button onClick = {() => editContactMutation({
-            variables: {
-                email_antiguo,
-                name,
-                surname,
-                email,
-                phone
-            },
-        }).then(() => {
-            reloadHandler(1);
-            setName("");
-            setSurname("");
-            setEmail("");
-            setPhone("");
-            setEmail_antiguo("");
-        })
-        }>Edit</button>
+            <Input type="text" value = {surname} onChange= {
+                (e) => setSurname(e.target.value)
+            } placeholder="Apellido"></Input>
+
+            <Input type="text" value = {email} onChange= {
+                (e) => setEmail(e.target.value)
+            } placeholder="email"></Input>
+
+            <Input type="text" value = {phone} onChange= {
+                (e) => setPhone(e.target.value)
+            } placeholder="phone"></Input>
+        </Formulario>
+        <Buttons>
+            <Button onClick = {() => addContactMutation({
+                variables: {
+                    name,
+                    surname,
+                    email,
+                    phone
+                },
+            }).then(() => {
+                reloadHandler(1);
+                setName("");
+                setSurname("");
+                setEmail("");
+                setPhone("");
+            })
+            }>Add</Button>
+
+            <Button onClick = {()=>reloadHandler(2)}>
+                A-Z</Button>
+
+            <Button onClick = {()=>reloadHandler(3)}>
+                Z-A</Button>
+                
+            <Button onClick = {() => deleteContactMutation({
+                variables: {
+                    email
+                },
+            }).then(() => {
+                reloadHandler(1);
+                setEmail("");
+            })
+            }>Delete</Button>
+
+            <Button onClick = {() => editContactMutation({
+                variables: {
+                    email_antiguo,
+                    name,
+                    surname,
+                    email,
+                    phone
+                },
+            }).then(() => {
+                reloadHandler(1);
+                setName("");
+                setSurname("");
+                setEmail("");
+                setPhone("");
+                setEmail_antiguo("");
+            })
+            }>Edit</Button>
+        </Buttons>
     </div>
 }
+
+const Formulario = styled.div`
+  display:flex;
+  flex-direction: column;
+`
+
+const Input = styled.input`
+    margin-top: 2%;
+    margin-right: 2%;
+    margin-left: 2%;
+    width: auto;
+    height: 5%;
+    margin-bottom: 2%;
+    font-size:large;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: left;
+    box-shadow: 5px black;
+    box-decoration-break: clone;
+`
+const Buttons = styled.div`
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:5px;
+    justify-content: center;
+`
+const Button = styled.button`
+    height: 5%;
+    width: 15%;
+    margin-top: inherit;
+    margin-left: 5px;
+    margin-right: inherit;
+    margin-bottom: inherit;
+    text-align: center;
+    background-color: rgb(77, 74, 74);
+    color: rgb(255, 255, 255);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    overflow: hidden;
+`
 
 export default Contact;
